@@ -1,50 +1,104 @@
 #import "@preview/diatypst:0.1.0": *
 
-#set text(font: ("Linux Libertine", "Source Han Serif SC"))
+#set text(font: ("Linux Libertine", "Source Han Serif"))
+#show math.equation: set text(font: ("New Computer Modern Math", "KaiTi"))
+
+#show heading.where(level: 2): set heading(outlined: false)
 #show heading.where(level: 3): set heading(outlined: false)
 #show heading.where(level: 4): set heading(outlined: false)
 
 #show: slides.with(
   title: "交通数据分析", // Required
-  subtitle: "课程概况",
+  subtitle: "贝叶斯公式及其应用",
   date: "2024.09.04",
   authors: ("熊耀华"),
   footer: false,
   layout: "small",
 )
 
+#let centered(body) = align(center, body)
+#let righted(body) = align(right, body)
+#let horizoned(body) = align(horizon, body)
+#let important(body) = text(fill: red, body)
+
 #outline()
 
-= 交通与交通规划
+= 数据分析概况
 
-== 什么是交通和运输？
+== 什么是数据分析
+#horizoned[
+  - 通过数据发现现实世界的规律，进而预测、控制现实世界。
+    - 相关性：预测
+    - 因果性：控制
 
-- 交通（Traffic）和运输（Transport）两个词严格含义有细微区别，但实际经常混用
-  - 运输：让人和物移动，例如从A*运输*到B。
-  - 交通：让移动的人和物通过某个地方，例如这条路上的*交通*。
-  - 我国专业命名习惯上运输特指铁路，交通特指公路和城市道路。
-  - 后续课程除非特殊强调，交通和运输混用。
+  - 难点在于：
+    - 复杂性
+    - 不确定性
 
-- 交通的重要性：
-  - 微观上与个人生活息息相关，衣食住*行*；
-  - 宏观上是社会发展的基础，要想富先修路。
+  - 一般步骤：
+    - 采集数据
+    - 建模
+    - 解读
+]
 
-#pagebreak()
 
-- 交通学科简史
-  - 机动车发明以前：自组织阶段
-  - 二战以前：萌芽
-  - 二战以后：汽车普及，交通学科正规化，科学化
-  - 国内：90年代以后，伴随大建设兴起
+== 推荐书籍
+#horizoned[
+  - Strang, Gilbert. Computational science and engineering. Wellesley-Cambridge Press, 2007.
+    - 微分方程建模及求解，处理确定性数据
+  - McElreath, Richard. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.
+    - 统计建模求解，处理高度不确定的数据
+]
 
-== 现代交通的复杂性
-- 为什么需要交通学科？因为*复杂性*提高，量变引起质变。
-  - 数量大，现代社会交流频繁，每天大量人、物移动。
-  - 需求多样，需要不同的速度、运量、价格、特殊需求（例如冷链、危险品、旅游）
-  - 采用的技术手段多样，地上跑、天上飞、水里游、烧煤、烧油、烧酒精、用电
-  - 交通的根本目的是移动，但额外要求变多
-    - 安全，降低伤亡
-    - 环保，减少废气、噪音、光污染
-    - 生态，减少对动植物生存的影响
-    - 舒适便利，门到门
-    - 经济，减少能源消耗，提高自动化程度
+= 贝叶斯概率
+
+== 贝叶斯公式
+#horizoned[
+  $ Pr(H|D)=(Pr(H) dot Pr(D|H))/P(H|D) $
+  #centered[或者]
+  $ Pr(H|D)=Pr(H) prop Pr(D|H) $
+]
+
+读作：*后验概率*正比与*先验概率*乘以*似然概率*
+
+#important(righted[处理不确定性的理论基础])
+
+== 示例1
+#horizoned[
+  已知一个陶罐中有 $N=4$ 个球，分红黑两色。红色球个数未知。
+
+  假设将陶罐充分晃动后盲取一个球，记录颜色，然后放回罐中。重复以上过程5次，记录如下 $D=[红,红,黑,红,黑]$。
+
+  请估算陶罐中红球的数量。
+]
+#v(1cm)
+两种思路：
+- 修正
+- 排除
+
+== 示例2
+#horizoned[
+  经典硬币问题，抛硬币5次，结果 $D=[正,反,正,正,反]$。
+
+  请估算硬币抛出正面的概率 $p$。
+]
+#v(1cm)
+两种思路：
+- 离散
+- 连续
+
+== 示例3
+#horizoned[
+  已知某汽车在平直道路上以10m/s匀速前行，通过某种检测器可以测量车辆的位置，表示为车辆道路起点的距离，测量结果如下：
+  #centered(table(
+    columns: 6,
+    [测量时间s], [1], [2], [3], [4], [5],
+    [距离m], [3.4], [4.7], [6.5], [7.2], [8.1],
+  ))
+  已知检测器存在测量误差，误差为正态分布，标准差$sigma=2$。估计车辆的实际轨迹。
+]
+
+= 采样理论
+
+== 分布和样本
+
