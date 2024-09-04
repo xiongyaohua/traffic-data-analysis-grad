@@ -1,6 +1,6 @@
 #import "@preview/diatypst:0.1.0": *
 
-#set text(font: ("Linux Libertine", "Source Han Serif"))
+#set text(font: ("Linux Libertine", "Source Han Serif SC"))
 #show math.equation: set text(font: ("New Computer Modern Math", "KaiTi"))
 
 #show heading.where(level: 2): set heading(outlined: false)
@@ -23,7 +23,7 @@
 
 #outline()
 
-= 数据分析概况
+= 课程概况
 
 == 什么是数据分析
 #horizoned[
@@ -41,22 +41,35 @@
     - 解读
 ]
 
+== 课程组织
 
-== 推荐书籍
 #horizoned[
-  - Strang, Gilbert. Computational science and engineering. Wellesley-Cambridge Press, 2007.
+  - 分为多个松散主题
+  - 每个主题：
+    - 少量理论
+    - 应用案例
+    - 实现
+  - 所有课程内容
+]
+
+== 课程资源
+#horizoned[
+  - 书籍
+    - Strang, Gilbert. Computational science and engineering. Wellesley-Cambridge Press, 2007.
     - 微分方程建模及求解，处理确定性数据
-  - McElreath, Richard. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.
+    - McElreath, Richard. Statistical rethinking: A Bayesian course with examples in R and Stan. Chapman and Hall/CRC, 2018.
     - 统计建模求解，处理高度不确定的数据
+  - 代码仓库
+    - https://github.com/xiongyaohua/traffic-data-analysis-grad
 ]
 
 = 贝叶斯概率
 
 == 贝叶斯公式
 #horizoned[
-  $ Pr(H|D)=(Pr(H) dot Pr(D|H))/P(H|D) $
+  $ Pr(H|D)=(Pr(H) dot Pr(D|H))/P(D) $
   #centered[或者]
-  $ Pr(H|D)=Pr(H) prop Pr(D|H) $
+  $ Pr(H|D) prop Pr(H) dot Pr(D|H) $
 ]
 
 读作：*后验概率*正比与*先验概率*乘以*似然概率*
@@ -93,7 +106,7 @@
   #centered(table(
     columns: 6,
     [测量时间s], [1], [2], [3], [4], [5],
-    [距离m], [3.4], [4.7], [6.5], [7.2], [8.1],
+    [距离m], [34], [47], [65], [72], [81],
   ))
   已知检测器存在测量误差，误差为正态分布，标准差$sigma=2$。估计车辆的实际轨迹。
 ]
@@ -101,4 +114,23 @@
 = 采样理论
 
 == 分布和样本
+#horizoned[
+  以上例子中分布表示为三种形式，各有局限性
+  - 函数：抽象，复杂函数难以归一化
+  - 网格点：精度问题，维度爆炸
+  - 均值+方差：仅限正态分布
+]
 
+分布还可以用表示为*样本*，更适合复杂函数。
+
+== 采样问题
+
+#horizoned[
+  给定分布函数，生成样本
+  - 直接生成：均匀分布，正态分布
+  - 简介生成：
+    - 反函数法
+    - 拒绝法
+    - MCMC（马尔科夫链蒙特卡罗）
+    - 加权采样
+]
