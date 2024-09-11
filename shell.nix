@@ -17,6 +17,7 @@ in pkgs.mkShell {
       python-pkgs.matplotlib
       python-pkgs.jupyter
       python-pkgs.notebook
+      python-pkgs.polars
     ]))
   ];
 }
