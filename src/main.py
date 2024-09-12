@@ -14,8 +14,12 @@ points = [(p[0]*400+500, p[1]*400+500) for p in points]
 for p1, p2 in zip(points[0:-1], points[1:]):
     world.add_wall(p1, p2)
 
+world.add_wall((400, 300), (600, 300))
+
 robot = world.add_robot(500, 500)
-robot.add_laser()
+for angle in np.linspace(0, 2 * np.pi, 6)[1:-1]:
+    robot.add_laser(angle)
+robot.add_laser(0.0, True)
 
 FPS = 60
 def main():
