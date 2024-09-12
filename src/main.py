@@ -14,7 +14,8 @@ points = [(p[0]*400+500, p[1]*400+500) for p in points]
 for p1, p2 in zip(points[0:-1], points[1:]):
     world.add_wall(p1, p2)
 
-robot = Robot(500, 500)
+robot = world.add_robot(500, 500)
+robot.add_laser()
 
 FPS = 60
 def main():
@@ -28,11 +29,10 @@ def main():
             if events.type == QUIT:
                 running = False
 
-        robot.process(1.0 / FPS)
+        world.process(1.0 / FPS)
 
         screen.fill(screen_color)
         world.draw(screen)
-        robot.draw(screen)
         pygame.display.flip()
 
         clock.tick(FPS) # 刷新率控制在60fps
