@@ -1,0 +1,27 @@
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+  unstable = import <nixos-unstable> {};
+in
+(
+  pkgs.buildFHSUserEnv {
+    name = "traffc analysis";
+    targetPkgs = pkgs: (
+      with pkgs; [
+        python312
+        helix
+        gitui
+        git
+        unstable.uv
+        zlib
+        glib
+        egl-wayland
+        SDL2
+        SDL2_image
+        SDL2_mixer
+        SDL2_ttf
+      ]
+    );
+    runScript = "bash";
+  }
+).env
