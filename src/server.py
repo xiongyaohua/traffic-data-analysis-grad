@@ -1,3 +1,5 @@
+from multiprocessing import connection, Process
+
 import numpy as np
 import pygame
 from pygame.locals import QUIT
@@ -21,25 +23,31 @@ for angle in np.linspace(0, 2 * np.pi, 6)[1:-1]:
     robot.add_laser(angle)
 robot.add_laser(0.0, True)
 
+state = {}
+
 FPS = 60
 def main():
     pygame.init()
     screen=pygame.display.set_mode((window_width, window_height))
 
-    running = True
-    clock = pygame.time.Clock()
-    while running:
-        for events in pygame.event.get():
-            if events.type == QUIT:
-                running = False
+    with connection.Listener("127.0.0.1:6006") as listener:
+        with listener.accept() as conn:
+            running = True
+            clock = pygame.time.Clock()
+            while running:
+                for events in pygame.event.get():
+                    if events.type == QUIT:
+                        running = False
 
-        world.process(1.0 / FPS)
+                world.process(1.0 / FPS)
 
-        screen.fill(screen_color)
-        world.draw(screen)
-        pygame.display.flip()
+                screen.fill(screen_color)
+                world.draw(screen)
+                pygame.display.flip()
 
-        clock.tick(FPS) # 刷新率控制在60fps
+                state["time"] = clock.get_time()
+                conn.send(state)
+                clock.tick(FPS) # 刷新率控制在60fps
 
 main()
 pygame.quit()
