@@ -14,7 +14,7 @@ def _points_into_line(p1: Vector2, p2: Vector2) -> Vector3:
     c = p2.y * p1.x - p2.x * p1.y
     
     line = Vector3(a, b, c)
-    return line.normalize()
+    return line / Vector2(a, b).length()
 
 def _ray_into_line(p: Vector2, v: Vector2) -> Vector3:
     return _points_into_line(p, p + v)
