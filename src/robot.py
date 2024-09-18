@@ -10,7 +10,7 @@ class Laser:
     def __init__(self, direction: Vector2=Vector2(0, -1), rotating=False):
         self.direction = direction
         self.rotating = rotating
-        hit = None
+        self.hit = None
 
     def process(self, dt: float, position, walls):
         if self.rotating:
@@ -28,6 +28,11 @@ class Laser:
                 screen, laser_color, position,
                 position + self.direction * 1000
             )
+    def sense(self, position):
+        if self.hit:
+            return self.direction, self.hit.distance_to(position)
+        else:
+            return self.direction, 10000000.0
 
 class Robot:
     def __init__(self, x: float=0.0, y: float=0.0, size: float=10):
@@ -63,3 +68,6 @@ class Robot:
             laser.draw(screen, self.position)
         
         pygame.draw.circle(screen, robot_color, self.position, self.size)
+    
+    def sense(self):
+        return [laser.sense(self.position) for laser in self.lasers]

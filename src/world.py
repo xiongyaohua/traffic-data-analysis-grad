@@ -29,3 +29,11 @@ class World:
     def process(self, dt):
         for robot in self.robots:
             robot.process(dt, self)
+
+    def sense(self):
+        if self.robots:
+            return {
+                "lasers": self.robots[0].sense()
+            }
+        else:
+            return {}

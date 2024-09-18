@@ -23,8 +23,6 @@ for angle in np.linspace(0, 2 * np.pi, 6)[1:-1]:
     robot.add_laser(angle)
 robot.add_laser(0.0, True)
 
-state = {}
-
 FPS = 60
 def main():
     pygame.init()
@@ -45,8 +43,7 @@ def main():
                 world.draw(screen)
                 pygame.display.flip()
 
-                state["time"] = clock.get_time()
-                conn.send(state)
+                conn.send(world.sense())
                 clock.tick(FPS) # 刷新率控制在60fps
 
 main()
