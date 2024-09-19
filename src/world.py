@@ -3,6 +3,7 @@ from pygame.math import Vector2
 from theme import wall_color
 from robot import Robot
 from geometry import Segment, intersect_ray_with_segments
+import numpy as np
 
 class World:
     def __init__(self):
@@ -43,7 +44,10 @@ class World:
         direction.rotate_ip(alpha)
         ray = (pos, direction)
         hit = intersect_ray_with_segments(ray, self.walls)
-        return hit
+        if hit:
+            return hit.distance_to(pos)
+        else:
+            return np.inf
 
 import unittest
 
@@ -54,11 +58,11 @@ class TestWorldRayTrace(unittest.TestCase):
         pos = Vector2(500, 500)
         
         hit = world.ray_trace(pos, 0)
-        self.assertEqual(hit, Vector2(500, 300))
+        self.assertEqual(hit, 200)
         
         pos = Vector2(500, 350)
         hit = world.ray_trace(pos, 45)
-        self.assertEqual(hit, Vector2(550, 300))
+        self.assertEqual(hit, 70.7106)
 
 if __name__ == "__main__":
     unittest.main()
